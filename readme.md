@@ -11,14 +11,17 @@ A Python program that generates strings of pseudorandom text using a simple Mark
 Positional:
  * User: The email account to use to send the email.
  * Password: The email account password.
+ * File: A plaintext file to serve as the corpus for generating the Markov chain.
 
 Options:
  * -r, --recipient: The email address to which to send the generated message.
  * -s, --subject: The subject of the  email to send.
  * -t, --host: The SMTP host to use. (Defaults to Gmail.)
- * -f, --filename: A plaintext file to serve as the corpus for generating the Markov chain.
  * -k, --keysize: The number of words to use to constitute the "present state" of the chain. (Defaults to 3.)
- * -c, --characters: A character limit for the generated text. (Defaults to 140.)
+ * -l, --limit: A character (or word) limit for the generated text. (Defaults to 140.)
+
+Flags:
+ * -w, --limit_words: Limits Markov text generation to the specified number of words (instead of characters).
 
 Bugs and Feature Requests
 =========================
@@ -26,7 +29,7 @@ Bugs and Feature Requests
 Feature Requests
 ----------------
 
-* Generate fake book, chapter, and verse for biblical attributions.
+* Support for multiple input files with a guarentee that text generated contains at least a little of each.
 
 Known Bugs
 ----------

@@ -14,18 +14,17 @@ from smtplib import SMTP
 DEFAULT_RECIPIENT = "trigger@ifttt.com"
 DEFAULT_SUBJECT = "#bible"
 DEFAULT_HOST = "smtp.gmail.com:587"
-DEFAULT_FILE = "bible.txt"
-DEFAULT_KEY_SIZE = 3
-DEFAULT_CHAR_LIMIT = 140
+DEFAULT_KEY_SIZE = 2
+DEFAULT_LIMIT = 140
 
 
 def send_markov(user, password, recipient, subject, host, filename, key_size,
-                char_limit):
+                limit, limit_words):
     # Initialize Markov chain.
     m = Markov(filename, key_size)
 
     # Build message.
-    verse = m.generate_text(char_limit=char_limit)
+    verse = m.generate_text(limit, not limit_words)
     message = MIMEText(verse)
     message["subject"] = subject
     message["to"] = recipient
@@ -48,6 +47,8 @@ if __name__ == "__main__":
                             "using a Markov chain and email it for IFTTT.")
     parser.add_argument("user", help="Send email from this account.")
     parser.add_argument("password", help="Password for email account.")
+    parser.add_argument("file", help="The file containing the corpus text from"
+                        " which to generate the Markov chain.")
     parser.add_argument("-r", "--recipient", help="The recipient of the email."
                         " Defaults to {}.".format(DEFAULT_RECIPIENT),
                         default=DEFAULT_RECIPIENT)
@@ -56,20 +57,20 @@ if __name__ == "__main__":
                         default=DEFAULT_SUBJECT)
     parser.add_argument("-t", "--host", help="The SMTP host to use. Defaults "
                         "to {}.".format(DEFAULT_HOST), default=DEFAULT_HOST)
-    parser.add_argument("-f", "--filename", help="The file containing the "
-                        "corpus text from which to generate the Markov chain. "
-                        "Defaults to {}.".format(DEFAULT_FILE),
-                        default=DEFAULT_FILE)
     parser.add_argument("-k", "--keysize", help="The key size to use for "
                         "Markov chain generation. Defaults to "
                         "{}.".format(DEFAULT_KEY_SIZE), type=int,
                         default=DEFAULT_KEY_SIZE)
-    parser.add_argument("-c", "--characters", help="The character limit to"
-                        "impose on the generated text. Defaults to "
-                        "{}.".format(DEFAULT_CHAR_LIMIT), type=int,
-                        default=DEFAULT_CHAR_LIMIT)
+    parser.add_argument("-l", "--limit", help="The character (or word) limit "
+                        "to impose on the generated text. Defaults to "
+                        "{}.".format(DEFAULT_LIMIT), type=int,
+                        default=DEFAULT_LIMIT)
+    parser.add_argument("-w", "--limit_words", help="Specify this flag to "
+                        "limit the generated text by word count instead of "
+                        "character count.", action="store_true")
 
-    send_markov(parser.parse_args().user, parser.parse_args().password,
-                parser.parse_args().recipient, parser.parse_args().subject,
-                parser.parse_args().host, parser.parse_args().filename,
-                parser.parse_args().keysize, parser.parse_args().characters)
+    args = parser.parse_args()
+
+    send_markov(args.user, args.password, args.recipient, args.subject,
+                args.host, args.file, args.keysize, args.limit,
+                args.limit_words)

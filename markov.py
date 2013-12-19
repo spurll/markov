@@ -7,7 +7,8 @@
 import random
 
 
-DEFAULT_KEY_SIZE = 3
+DEFAULT_KEY_SIZE = 2
+MINIMUM_WORDS = 5
 
 
 class Markov(object):
@@ -17,7 +18,9 @@ class Markov(object):
         self.key_size = key_size
 
         with open(filename) as corpus:
-            self.words = corpus.read().split()
+            text = corpus.read()
+            text = text.replace('"', "").replace("(", "").replace(")", "")
+            self.words = text.split()
 
         self.corpus = " ".join(self.words)
         self.define_transitions()
@@ -43,7 +46,11 @@ class Markov(object):
             yield (tuple(self.words[i:i+self.key_size]),
                    self.words[i+self.key_size])
 
-    def generate_text(self, sentence=True, word_limit=None, char_limit=None):
+    def generate_text(self, limit=None, limit_by_char=False):
+        if not limit:
+            print "A word (or character) limit must be specified."
+            return
+
         try_again = True
 
         while try_again:
@@ -52,37 +59,29 @@ class Markov(object):
             present = random.choice(self.initial)
             chain = list(present[:self.key_size-1])
 
-            if sentence:
-                while True:
-                    chain.append(present[-1])
-                    present = present[1:] + \
-                              (random.choice(self.transitions[present]),)
-                    
-                    if chain[-1][-1] in [".", "!", "?"]:
-                        # Ensure that length constraints are met.
-                        if (word_limit and len(chain) > word_limit) or \
-                           (char_limit and len(" ".join(chain)) > char_limit):
-                            print("Too long!")
-                            try_again = True
-                        break
+            length = len(" ".join(chain)) if limit_by_char else len(chain)
 
-            elif word_limit:
-                for i in range(word_limit - len(chain)):
-                    chain.append(present[-1])
-                    present = present[1:] + \
-                              (random.choice(self.transitions[present]),)
+            while length < limit:
+                chain.append(present[-1])
+                present = present[1:] + \
+                          (random.choice(self.transitions[present]),)
+                length = len(" ".join(chain)) if limit_by_char else len(chain)
 
-            elif character_limit:
-                while len(" ".join(chain)) + len(present[-1]) < character_limit:
-                    chain.append(present[-1])
-                    present = present[1:] + \
-                              (random.choice(self.transitions[present]),)
+            # Because words are added one at a time, but characters aren't, we
+            # may need to prune if we used a character limit.
+            if limit_by_char and length > limit:
+                chain = chain[:-1]
+
+            # Now we don't want to end on an incomplete thought, so prune until
+            # we hit an appropriate punctuation mark.
+            while chain and chain[-1][-1] not in [".", "!", "?"]:
+                chain = chain[:-1]
 
             text = " ".join(chain)
 
-            # Check to make sure it's actually a new string of text.
-            if text in self.corpus:
-                print("This isn't a new string! It's straight from the text!")
+            # Make sure that what we've generated is worthwhile.
+            if len(chain) < MINIMUM_WORDS or text in self.corpus:
                 try_again = True
+                print("Trying again.")
 
         return text
