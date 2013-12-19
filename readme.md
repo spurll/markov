@@ -17,7 +17,7 @@ Options:
  * -r, --recipient: The email address to which to send the generated message.
  * -s, --subject: The subject of the  email to send.
  * -t, --host: The SMTP host to use. (Defaults to Gmail.)
- * -k, --keysize: The number of words to use to constitute the "present state" of the chain. (Defaults to 3.)
+ * -k, --keysize: The number of words to use to constitute the "present state" of the chain. (Defaults to 2.)
  * -l, --limit: A character (or word) limit for the generated text. (Defaults to 140.)
 
 Flags:
