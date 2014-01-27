@@ -2,7 +2,7 @@ Overview
 ========
 
 markov.py
---------------
+---------
 
 A Python program that generates strings of pseudorandom text using a simple Markov chain procedure.
 
@@ -20,7 +20,6 @@ Flags:
  * -q, --strip_quotes: Removes all quotation marks from the corpus text before generating chains.
  * -b, --strip_parens: Removes all parentheses from the corpus text before generating chains.
  * -p, --paragraphs: Generates paragraph breaks (two line feeds) every few sentences.
-
 
 send_markov.py
 --------------
@@ -56,7 +55,8 @@ Feature Requests
 Known Bugs
 ----------
 
-* None
+* There seems to be a bias in the random number generator. Certain phrases show up far too often.
+* Frequently sentences are cut off. I don't know if that's because an illegal character is included, and that results in a problem with the email, or if it's an issue with the Python package itself. (For example: http://aliceinobjectivism.tumblr.com/post/74520945676/i-mean-there-was-one-of-his-dream-too-was-it)
 
 Special Thanks
 ==============
