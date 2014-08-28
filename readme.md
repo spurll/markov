@@ -2,7 +2,7 @@ Overview
 ========
 
 markov.py
---------------
+---------
 
 A Python program that generates strings of pseudorandom text using a simple Markov chain procedure.
 
@@ -20,7 +20,6 @@ Flags:
  * -q, --strip_quotes: Removes all quotation marks from the corpus text before generating chains.
  * -b, --strip_parens: Removes all parentheses from the corpus text before generating chains.
  * -p, --paragraphs: Generates paragraph breaks (two line feeds) every few sentences.
-
 
 send_markov.py
 --------------
@@ -51,23 +50,21 @@ Bugs and Feature Requests
 Feature Requests
 ----------------
 
-* None
+None.
 
 Known Bugs
 ----------
 
-* None
+* Sometimes seems to cut off early. Not sure why, yet. For example: http://aliceinobjectivism.tumblr.com/post/95568249050/im-used-to-know
 
 Special Thanks
 ==============
 
-In writing the Markov chain generator, I read over some generators other developers had written, most notably:
-http://agiliq.com/blog/2009/06/generating-pseudo-random-text-with-markov-chains-u/
+In writing the Markov chain generator, I read over some generators other developers had written, most notably [this one](http://agiliq.com/blog/2009/06/generating-pseudo-random-text-with-markov-chains-u/). So thanks!
 
 License Information
 ===================
 
-Written by Gem Newman.
-http://www.startleddisbelief.com
+Written by Gem Newman. [GitHub](https://github.com/spurll/) | [Blog](http://www.startleddisbelief.com) | [Twitter](https://twitter.com/spurll)
 
-This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
+This work is licensed under Creative Commons [BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/).
