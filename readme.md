@@ -55,7 +55,10 @@ None.
 Known Bugs
 ----------
 
-* Sometimes seems to cut off early. Not sure why, yet. For example: http://aliceinobjectivism.tumblr.com/post/95568249050/im-used-to-know
+* Frequently sentences are cut off. I don't know if that's because an illegal character is included, and that results in a problem with the email, or if it's an issue with the Python package itself. Here are some examples:
+  * http://aliceinobjectivism.tumblr.com/post/74520945676/i-mean-there-was-one-of-his-dream-too-was-it
+  * http://aliceinobjectivism.tumblr.com/post/95568249050/im-used-to-know
+* There seems to be a bias in the random number generator. Certain phrases show up far too often.
 
 Special Thanks
 ==============
